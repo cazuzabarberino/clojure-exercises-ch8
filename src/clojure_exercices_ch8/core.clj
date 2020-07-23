@@ -59,6 +59,18 @@
                 :strength 4
                 :dexterity 5}})
 
+(defn get-attr
+  [c attr]
+  (attr (:attributes c)))
 
+(defmacro def-my-func
+  [& args]
+  `(do ~@(map (fn [[one two]]
+                `(def ~one (comp #(~two (:attributes %1)))))
+              (partition 2 args))))
 
+(def-my-func c-int :intelligence
+  c-str :strength
+  c-dex :dexterity)
 
+(list (c-int character) (c-str character) (c-dex character))
